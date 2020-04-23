@@ -14,13 +14,23 @@ namespace KataPotter
         private const int BOOK_PRICE = 8;
         private const int MAX_BOOK = 5;
         private readonly Dictionary<BookTitle, int> _basket;
+        private readonly Dictionary<int, float> discounts;
+
         public Store()
         {
             _basket = new Dictionary<BookTitle, int>();
+            discounts = new Dictionary<int, float>
+            {
+                {1, ONE_BOOK_DISCOUNT },
+                {2, TWO_BOOKS_DISCOUNT },
+                {3, THREE_BOOKS_DISCOUNT },
+                {4, FOUR_BOOKS_DISCOUNT },
+                {5, FIVE_BOOKS_DISCOUNT }
+            };
         }
         public double Bill()
         {
-            double initialPrice = 0;
+            const double initialPrice = 0;
             return Math.Round(PriceWithReduction(initialPrice), 2);
         }
 
@@ -29,14 +39,9 @@ namespace KataPotter
             if (_basket.Count == 0)
                 return initialPrice;
 
-            return OptimizeReduction() switch
-            {
-                1 => (initialPrice + PriceWithReduction(ApplyReduction(ONE_BOOK_DISCOUNT, 1))),
-                2 => (initialPrice + PriceWithReduction(ApplyReduction(TWO_BOOKS_DISCOUNT, 2))),
-                3 => (initialPrice + PriceWithReduction(ApplyReduction(THREE_BOOKS_DISCOUNT, 3))),
-                4 => (initialPrice + PriceWithReduction(ApplyReduction(FOUR_BOOKS_DISCOUNT, 4))),
-                _ => (initialPrice + PriceWithReduction(ApplyReduction(FIVE_BOOKS_DISCOUNT, 5)))
-            };
+            var index = OptimizeReduction();
+            var reduction = ApplyReduction(discounts[index], index);
+            return initialPrice + PriceWithReduction(reduction);
         }
 
         private double ApplyReduction(float reduction, int quantityToTreat)
@@ -49,14 +54,16 @@ namespace KataPotter
         private void ClearBasket(int quantityToTreat)
         {
             var quantityTreated = 0;
-            foreach (BookTitle book in Enum.GetValues(typeof(BookTitle)))
-            {
-                if (!_basket.ContainsKey(book) || quantityTreated == quantityToTreat) continue;
+            var _basketCopy = _basket;
+            var listBasket = _basketCopy.ToList();
 
-                _basket[book]--;
+            while (quantityTreated != quantityToTreat)
+            {
+                var elementToRemove = listBasket.ElementAt(quantityTreated);
+                _basketCopy.Remove(elementToRemove.Key);
+                if (elementToRemove.Value > 1)
+                    _basketCopy.Add(elementToRemove.Key, elementToRemove.Value - 1);
                 quantityTreated++;
-                if (_basket[book] == 0)
-                    _basket.Remove(book);
             }
         }
 
@@ -70,15 +77,12 @@ namespace KataPotter
 
         private int OptimizeReduction()
         {
-            switch (_basket.Count)
+            return _basket.Count switch
             {
-                case MAX_BOOK when _basket.Values.Count(x => x > 1) >= 4:
-                    return MAX_BOOK;
-                case MAX_BOOK when _basket.Values.Count(x => x > 1) >= 2:
-                    return 4;
-                default:
-                    return _basket.Count;
-            }
+                MAX_BOOK when _basket.Values.Count(x => x > 1) >= 4 => MAX_BOOK,
+                MAX_BOOK when _basket.Values.Count(x => x > 1) >= 2 => 4,
+                _ => _basket.Count
+            };
         }
     }
 }
