@@ -73,7 +73,7 @@ namespace KataPotter
             switch (_basket.Count)
             {
                 case MAX_BOOK when _basket.Values.Count(x => x > 1) >= 4:
-                    return 5;
+                    return MAX_BOOK;
                 case MAX_BOOK when _basket.Values.Count(x => x > 1) >= 2:
                     return 4;
                 default:
