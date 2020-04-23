@@ -158,7 +158,7 @@ namespace KataPotter.Tests
         }
 
         [Fact]
-        public void Given_a_basket_with_several_books_should_return_152()
+        public void Given_a_basket_with_several_books_should_return_141_2()
         {
             var store = new Store();
             var firstBook = new Book(BookTitle.First);
@@ -171,7 +171,7 @@ namespace KataPotter.Tests
             store.AddToBasket(thirdBook, 4);
             store.AddToBasket(fourthBook, 5);
             store.AddToBasket(fifthBook, 4);
-            Check.That(store.Bill()).IsEqualTo(152);
+            Check.That(store.Bill()).IsEqualTo(3 * (8 * 5 * 0.75) + 2 * (8 * 4 * 0.8));
         }
     }
 }
