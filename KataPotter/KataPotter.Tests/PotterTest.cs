@@ -1,4 +1,3 @@
-using System;
 using Xunit;
 using NFluent;
 
@@ -7,18 +6,10 @@ namespace KataPotter.Tests
     public class PotterTest
     {
         [Fact]
-        public void Test1()
+        public void Given_an_empty_basket_should_return_0()
         {
-            Store store=new Store();
+            var store=new Store();
             Check.That(store.Bill()).IsEqualTo(0);
-        }
-    }
-
-    public class Store
-    {
-        public float Bill()
-        {
-            return 0;
         }
     }
 }
