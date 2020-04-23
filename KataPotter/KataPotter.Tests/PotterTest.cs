@@ -30,6 +30,17 @@ namespace KataPotter.Tests
             Check.That(store.Bill()).IsEqualTo(16);
         }
 
-      
+        [Fact]
+        public void Given_a_basket_with_two_different_books_should_return_15_2()
+        {
+            var store = new Store();
+            var firstBook = new Book(BookTitle.First);
+            var secondBook = new Book(BookTitle.Second);
+            store.AddToBasket(firstBook, 1);
+            store.AddToBasket(secondBook, 1);
+            Check.That(store.Bill()).IsEqualTo(15.2);
+        }
+
+
     }
 }
