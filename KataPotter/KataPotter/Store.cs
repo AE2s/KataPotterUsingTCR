@@ -5,6 +5,7 @@ namespace KataPotter
 {
     public class Store
     {
+        private const float TWO_BOOKS_DISCOUNT = 0.05f;
         private readonly List<Book> _basket;
         public Store()
         {
@@ -17,7 +18,13 @@ namespace KataPotter
 
             if (_basket.Count == 1)
                 return 8;
-            return 16;
+
+            var toto = _basket.GroupBy(x => x.Title);
+            var condition = toto.Count() == 1;
+            if (condition)
+                return 8*_basket.Count;
+
+            return (_basket.Count * 8) - (_basket.Count * 8 * TWO_BOOKS_DISCOUNT);
         }
 
         public void AddToBasket(Book book, int quantity)

@@ -38,7 +38,7 @@ namespace KataPotter.Tests
             var secondBook = new Book(BookTitle.Second);
             store.AddToBasket(firstBook, 1);
             store.AddToBasket(secondBook, 1);
-            Check.That(store.Bill()).IsEqualTo(15.2);
+            Check.That(store.Bill()).IsEqualTo(15.2f);
         }
 
 
