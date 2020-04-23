@@ -11,34 +11,51 @@ namespace KataPotter
         private const float FOUR_BOOKS_DISCOUNT = 0.80f;
         private const float FIVE_BOOKS_DISCOUNT = 0.75f;
         private const int BOOK_PRICE = 8;
-        private readonly List<Book> _basket;
+        private readonly Dictionary<Book,int> _basket;
         public Store()
         {
-            _basket = new List<Book>();
+            _basket = new Dictionary<Book, int>();
         }
         public double Bill()
         {
             if (!_basket.Any())
                 return 0;
 
-            if (_basket.GroupBy(x => x.Title).Count() == 1)
-                return BOOK_PRICE * _basket.Count;
-            if (_basket.GroupBy(x => x.Title).Count() == 2)
-                return Math.Round(_basket.Count * BOOK_PRICE * TWO_BOOKS_DISCOUNT,2);
+            if (HaveOnlyOneTypeOfBook())
+                return BOOK_PRICE * _basket.Values.Sum();
 
-            if (_basket.GroupBy(x => x.Title).Count() == 3)
-                return Math.Round(_basket.Count * BOOK_PRICE * THREE_BOOKS_DISCOUNT, 2);
-
-            if (_basket.GroupBy(x => x.Title).Count() == 4)
-                return Math.Round(_basket.Count * BOOK_PRICE * FOUR_BOOKS_DISCOUNT, 2);
-
-            return Math.Round(_basket.Count * BOOK_PRICE * FIVE_BOOKS_DISCOUNT,2);
+            return PriceWithReduction();
         }
+
+        private double PriceWithReduction()
+        {
+            switch (_basket.Count)
+            {
+                case 2:
+                    return ApplyReduction(TWO_BOOKS_DISCOUNT);
+                case 3:
+                    return ApplyReduction(THREE_BOOKS_DISCOUNT);
+                case 4:
+                    return ApplyReduction(FOUR_BOOKS_DISCOUNT);
+                default:
+                    return ApplyReduction(FIVE_BOOKS_DISCOUNT);
+            }
+        }
+
+        private double ApplyReduction(float reduction)
+        {
+            return Math.Round(_basket.Values.Sum() * BOOK_PRICE * reduction, 2);
+        }
+
+        private bool HaveOnlyOneTypeOfBook() => _basket.Count == 1;
 
         public void AddToBasket(Book book, int quantity)
         {
-            for (int i = 0; i < quantity; i++)
-                _basket.Add(book);
+            if(_basket.ContainsKey(book))
+                _basket[book]+=quantity;
+            else
+                _basket.Add(book, quantity);
+            
         }
     }
 }
