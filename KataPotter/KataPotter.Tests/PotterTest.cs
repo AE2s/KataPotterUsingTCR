@@ -1,5 +1,6 @@
 using System;
 using Xunit;
+using NFluent;
 
 namespace KataPotter.Tests
 {
@@ -7,8 +8,8 @@ namespace KataPotter.Tests
     {
         [Fact]
         public void Test1()
-        {
-
+        {   
+            
         }
     }
 }
