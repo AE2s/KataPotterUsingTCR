@@ -18,14 +18,14 @@ namespace KataPotter
                 return 0;
 
             if (_basket.Count == 1)
-                return 8;
+                return BOOK_PRICE;
 
             var toto = _basket.GroupBy(x => x.Title);
             var condition = toto.Count() == 1;
             if (condition)
-                return 8*_basket.Count;
+                return BOOK_PRICE * _basket.Count;
 
-            return (_basket.Count * 8) - (_basket.Count * 8 * TWO_BOOKS_DISCOUNT);
+            return (_basket.Count * 8) - (_basket.Count * BOOK_PRICE * TWO_BOOKS_DISCOUNT);
         }
 
         public void AddToBasket(Book book, int quantity)
