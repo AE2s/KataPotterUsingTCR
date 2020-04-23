@@ -6,6 +6,7 @@ namespace KataPotter
     public class Store
     {
         private const float TWO_BOOKS_DISCOUNT = 0.05f;
+        private const int BOOK_PRICE = 8;
         private readonly List<Book> _basket;
         public Store()
         {
