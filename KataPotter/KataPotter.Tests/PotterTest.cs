@@ -54,6 +54,21 @@ namespace KataPotter.Tests
             Check.That(store.Bill()).IsEqualTo(21.60);
         }
 
+        [Fact]
+        public void Given_a_basket_with_4_different_books_should_return_25_6()
+        {
+            var store = new Store();
+            var firstBook = new Book(BookTitle.First);
+            var secondBook = new Book(BookTitle.Second);
+            var thirdBook = new Book(BookTitle.Third);
+            var fourthBook = new Book(BookTitle.Fourth);
+            store.AddToBasket(firstBook, 1);
+            store.AddToBasket(secondBook, 1);
+            store.AddToBasket(thirdBook, 1);
+            store.AddToBasket(fourthBook, 1);
+            Check.That(store.Bill()).IsEqualTo(25.60);
+        }
+
 
     }
 }

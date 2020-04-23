@@ -8,6 +8,7 @@ namespace KataPotter
     {
         private const float TWO_BOOKS_DISCOUNT = 0.95f;
         private const float THREE_BOOKS_DISCOUNT = 0.90f;
+        private const float FOUR_BOOKS_DISCOUNT = 0.80f;
         private const int BOOK_PRICE = 8;
         private readonly List<Book> _basket;
         public Store()
@@ -24,7 +25,10 @@ namespace KataPotter
             if (_basket.GroupBy(x => x.Title).Count() == 2)
                 return Math.Round(_basket.Count * BOOK_PRICE * TWO_BOOKS_DISCOUNT,2);
 
-            return Math.Round(_basket.Count * BOOK_PRICE * THREE_BOOKS_DISCOUNT,2);
+            if (_basket.GroupBy(x => x.Title).Count() == 3)
+                return Math.Round(_basket.Count * BOOK_PRICE * THREE_BOOKS_DISCOUNT, 2);
+
+            return Math.Round(_basket.Count * BOOK_PRICE * FOUR_BOOKS_DISCOUNT,2);
         }
 
         public void AddToBasket(Book book, int quantity)
