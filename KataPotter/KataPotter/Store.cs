@@ -20,7 +20,7 @@ namespace KataPotter
             if (_basket.GroupBy(x => x.Title).Count() == 1)
                 return BOOK_PRICE * _basket.Count;
 
-            return (_basket.Count * 8) - (_basket.Count * BOOK_PRICE * TWO_BOOKS_DISCOUNT);
+            return _basket.Count * BOOK_PRICE - _basket.Count * BOOK_PRICE * TWO_BOOKS_DISCOUNT;
         }
 
         public void AddToBasket(Book book, int quantity)
