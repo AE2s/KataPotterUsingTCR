@@ -38,7 +38,20 @@ namespace KataPotter.Tests
             var secondBook = new Book(BookTitle.Second);
             store.AddToBasket(firstBook, 1);
             store.AddToBasket(secondBook, 1);
-            Check.That(store.Bill()).IsEqualTo(15.2f);
+            Check.That(store.Bill()).IsEqualTo(15.20);
+        }
+
+        [Fact]
+        public void Given_a_basket_with_3_different_books_should_return_21_6()
+        {
+            var store = new Store();
+            var firstBook = new Book(BookTitle.First);
+            var secondBook = new Book(BookTitle.Second);
+            var thirdBook = new Book(BookTitle.Third);
+            store.AddToBasket(firstBook, 1);
+            store.AddToBasket(secondBook, 1);
+            store.AddToBasket(thirdBook, 1);
+            Check.That(store.Bill()).IsEqualTo(21.60);
         }
 
 
