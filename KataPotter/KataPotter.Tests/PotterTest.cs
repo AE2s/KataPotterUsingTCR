@@ -11,5 +11,14 @@ namespace KataPotter.Tests
             var store=new Store();
             Check.That(store.Bill()).IsEqualTo(0);
         }
+
+        [Fact]
+        public void Given_a_basket_with_one_book_should_return_8()
+        {
+            var store = new Store();
+            Book book=new Book();
+            store.AddToBasket(book);
+            Check.That(store.Bill()).IsEqualTo(8);
+        }
     }
 }
