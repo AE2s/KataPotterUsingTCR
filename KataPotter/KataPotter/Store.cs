@@ -12,15 +12,18 @@ namespace KataPotter
         }
         public float Bill()
         {
-            if(!_basket.Any())
+            if (!_basket.Any())
                 return 0;
 
-            return 8;
+            if (_basket.Count == 1)
+                return 8;
+            return 16;
         }
 
-        public void AddToBasket(Book book)
+        public void AddToBasket(Book book, int quantity)
         {
-            _basket.Add(book);
+            for (int i = 0; i < quantity; i++)
+                _basket.Add(book);
         }
     }
 }

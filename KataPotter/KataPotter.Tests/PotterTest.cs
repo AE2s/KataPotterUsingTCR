@@ -16,9 +16,20 @@ namespace KataPotter.Tests
         public void Given_a_basket_with_one_book_should_return_8()
         {
             var store = new Store();
-            Book book=new Book();
-            store.AddToBasket(book);
+            Book book=new Book(BookTitle.First);
+            store.AddToBasket(book,1);
             Check.That(store.Bill()).IsEqualTo(8);
         }
+
+        [Fact]
+        public void Given_a_basket_with_two_same_books_should_return_16()
+        {
+            var store = new Store();
+            Book book = new Book(BookTitle.First);
+            store.AddToBasket(book,2);
+            Check.That(store.Bill()).IsEqualTo(16);
+        }
+
+      
     }
 }
